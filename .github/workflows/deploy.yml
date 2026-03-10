@@ -1,0 +1,14 @@
+name: Deploy (Local)
+
+on:
+  push:
+    branches: ["master"]
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Deploy to local path
+        run: ./scripts/deploy_local.sh
