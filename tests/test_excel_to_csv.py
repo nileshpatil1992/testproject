@@ -24,7 +24,7 @@ def test_excel_to_csvs_multiple_sheets(tmp_path: Path):
         pd.DataFrame({"a": [1, 2]}).to_excel(writer, sheet_name="Sales Q1", index=False)
         pd.DataFrame({"b": ["x", "y"]}).to_excel(writer, sheet_name="Profit & Loss", index=False)
 
-    out_dir = tmp_path / "out"
+    out_dir = tmp_path / "output"
     written = excel_to_csvs(excel_path, out_dir)
 
     assert set(written.keys()) == {"Sales Q1", "Profit & Loss"}
@@ -39,7 +39,7 @@ def test_excel_to_csvs_deduped_names(tmp_path: Path):
         pd.DataFrame({"a": [1]}).to_excel(writer, sheet_name="A B", index=False)
         pd.DataFrame({"a": [2]}).to_excel(writer, sheet_name="A-B", index=False)
 
-    out_dir = tmp_path / "out"
+    out_dir = tmp_path / "output"
     written = excel_to_csvs(excel_path, out_dir)
 
     assert set(written.keys()) == {"A B", "A-B"}
@@ -48,7 +48,7 @@ def test_excel_to_csvs_deduped_names(tmp_path: Path):
 
 
 def test_excel_to_csvs_with_fixture(tmp_path: Path):
-    out_dir = tmp_path / "out"
+    out_dir = tmp_path / "output"
     written = excel_to_csvs(FIXTURE, out_dir)
 
     assert set(written.keys()) == {"Sales Q1", "Profit & Loss", "A B", "A-B"}

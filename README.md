@@ -1,6 +1,8 @@
 # Excel to CSV Converter
 
-This project provides a small, modular Python utility that converts an Excel workbook into multiple CSV files, one per sheet.
+This project provides small, modular Python utilities to convert:
+- Excel workbooks into multiple CSVs (one per sheet)
+- CSV files into a single Excel workbook (one sheet per CSV)
 
 ## Requirements
 
@@ -30,6 +32,20 @@ python3 excel_to_csv.py /path/to/workbook.xlsx --out-dir /path/to/output
 
 The script prints a mapping of original sheet names to the generated CSV files.
 
+### CSV to Excel
+
+Basic usage (read CSVs from `./output`, write to `./output_excel/workbook.xlsx`):
+
+```bash
+python3 csv_to_excel.py
+```
+
+Specify input directory and output file:
+
+```bash
+python3 csv_to_excel.py --input-dir /path/to/csvs --out-file /path/to/output.xlsx
+```
+
 ## How It Works
 
 - Reads the entire workbook using `pandas.read_excel(..., sheet_name=None)` which returns a dictionary of `{sheet_name: DataFrame}`.
@@ -39,6 +55,13 @@ The script prints a mapping of original sheet names to the generated CSV files.
   - Remove all non-alphanumeric characters
 - Writes each sheet as a CSV (without index) into the chosen output directory. Default is `./output`.
 - If two sheets sanitize to the same filename, it appends a numeric suffix (`_2`, `_3`, ...).
+
+### CSV to Excel
+
+- Scans the input directory for `.csv` files and sorts them by filename.
+- Uses each CSV filename (without extension) as the sheet name.
+- Sanitizes sheet names to fit Excel limits and removes invalid characters.
+- Writes all sheets to a single workbook at `./output_excel/workbook.xlsx` by default.
 
 ## Filename Rules
 
@@ -57,6 +80,7 @@ Examples:
 ## Project Structure
 
 - `excel_to_csv.py` — main implementation
+- `csv_to_excel.py` — CSV to Excel implementation
 - `tests/` — unit tests (pytest)
 
 ## Running Tests
